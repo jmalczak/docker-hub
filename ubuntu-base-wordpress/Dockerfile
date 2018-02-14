@@ -15,8 +15,10 @@ RUN cd /var/www/html && \
     rm index.html && \ 
     wp --allow-root core download
 
-RUN mkdir /infrastructure
+RUN a2enmod rewrite
+RUN awk '{ gsub("DocumentRoot /var/www/html", "DocumentRoot /var/www/html\n\t<Directory /var/www/html>\n\t\tAllowOverride All\n\t</Directory>") } 1' /etc/apache2/sites-available/000-default.conf > tmp.conf && mv tmp.conf /etc/apache2/sites-available/000-default.conf
 
+RUN mkdir /infrastructure
 COPY docker-entrypoint.sh /infrastructure/
 
 CMD ["/infrastructure/docker-entrypoint.sh"]

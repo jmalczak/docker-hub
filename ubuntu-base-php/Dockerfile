@@ -2,7 +2,7 @@ FROM ubuntu:17.10
 
 ENV DB_PWD root
 
-RUN apt-get update && apt-get upgrade
+RUN apt-get update -y && apt-get upgrade -y
 RUN apt-get install -y vim curl less
 
 RUN echo "mysql-server mysql-server/root_password password $DB_PWD" | debconf-set-selections && \
